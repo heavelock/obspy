@@ -25,7 +25,7 @@ from matplotlib import rcParams
 
 from obspy import UTCDateTime, read_inventory
 from obspy.core.inventory.response import (
-    _pitick2latex, PolesZerosResponseStage, Response)
+    _pitick2latex, PolesZerosResponseStage)
 from obspy.core.util.misc import CatchOutput
 from obspy.core.util.obspy_types import ComplexWithUncertainties
 from obspy.core.util.testing import ImageComparison, get_matplotlib_version
@@ -259,7 +259,7 @@ class ResponseTestCase(unittest.TestCase):
         seed_id = "IU.ANMO.10.BHZ"
         # Get inventory resp from xml
         xml_file = os.path.join(self.data_dir,
-                                 filename + os.path.extsep + 'xml')
+                                filename + os.path.extsep + 'xml')
         inv_from_xml = read_inventory(xml_file)
         xml_response = inv_from_xml.get_response(seed_id, datetime)
 
@@ -272,7 +272,7 @@ class ResponseTestCase(unittest.TestCase):
         # Compare
         ignored_fields = ['input_units_description',
                           'output_units_description',
-                          'resource_id' ]
+                          'resource_id']
         for x_stage, r_stage in zip(xml_response.response_stages,
                                     resp_response.response_stages):
             for ((x_k, x_v), (r_k, r_v)) in zip(x_stage.__dict__.items(),
@@ -281,7 +281,6 @@ class ResponseTestCase(unittest.TestCase):
                     continue
                 self.assertEqual(x_v, r_v)
 
-        #for x_at, r_at in zip(xml_response.__dict__, resp_response.__
 
 def suite():
     return unittest.makeSuite(ResponseTestCase, 'test')
