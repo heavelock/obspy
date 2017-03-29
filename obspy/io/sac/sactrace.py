@@ -448,23 +448,6 @@ class geographicheader(floatheader):
             except SacHeaderError:
                 pass
 
-def _floatgetter(hdr):
-    def get_float(self):
-        value = float(self._hf[HD.FLOATHDRS.index(hdr)])
-        if value == HD.FNULL:
-            value = None
-        return value
-    return get_float
-
-
-def _floatsetter(hdr):
-    def set_float(self, value):
-        if value is None:
-            value = HD.FNULL
-        self._hf[HD.FLOATHDRS.index(hdr)] = value
-    return set_float
-
-
 # ints
 def _intgetter(hdr):
     def get_int(self):
