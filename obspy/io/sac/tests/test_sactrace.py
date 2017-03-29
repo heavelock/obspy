@@ -246,6 +246,7 @@ class SACTraceTestCase(unittest.TestCase):
             self.assertEqual(getattr(SACTrace, hdr).__doc__, HD.DOC[hdr])
             self.assertEqual(getattr(sac, hdr).__doc__, HD.DOC[hdr])
 
+
 def suite():
     return unittest.makeSuite(SACTraceTestCase, 'test')
 
