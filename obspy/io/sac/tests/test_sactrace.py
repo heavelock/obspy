@@ -242,6 +242,9 @@ class SACTraceTestCase(unittest.TestCase):
             self.assertAlmostEqual(sac._hf[HD.FLOATHDRS.index(hdr)], floatval)
             # test getting
             self.assertAlmostEqual(getattr(sac, hdr), floatval)
+            # test __doc__ on class and instances
+            self.assertEqual(getattr(SACTrace, hdr).__doc__, HD.DOC[hdr])
+            self.assertEqual(getattr(sac, hdr).__doc__, HD.DOC[hdr])
 
 def suite():
     return unittest.makeSuite(SACTraceTestCase, 'test')
