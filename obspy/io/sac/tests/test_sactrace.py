@@ -231,12 +231,12 @@ class SACTraceTestCase(unittest.TestCase):
             self.assertEqual(getattr(sac, sachdr), modified_value)
 
     def test_floatheader(self):
-        floatval = random.random()
         sac = SACTrace()
         for hdr in ('delta', 'scale', 'odelta', 'internal0', 'stel', 'stdp',
                     'evdp', 'mag', 'user0', 'user1', 'user2', 'user3', 'user4',
                     'user5', 'user6', 'user7', 'user8', 'user9', 'dist', 'az',
                     'baz', 'gcarc', 'cmpaz', 'cmpinc'):
+            floatval = random.random()
             # test setting
             setattr(sac, hdr, floatval)
             self.assertAlmostEqual(sac._hf[HD.FLOATHDRS.index(hdr)], floatval)
