@@ -523,11 +523,11 @@ class stringheader(sacheader):
             try:
                 # value is a bytes
                 value = native_str(
-                        self._hs[HD.STRHDR.index(self.name)].decode()
+                        instance._hs[HD.STRHDR.index(self.name)].decode()
                         )
             except AttributeError:
                 # value is a str
-                value = native_str(self._hs[HD.STRHDRS.index(self.name)])
+                value = native_str(instance._hs[HD.STRHDRS.index(self.name)])
 
             if value == HD.SNULL:
                 value = None
@@ -548,10 +548,10 @@ class stringheader(sacheader):
             warnings.warn(msg)
         # values will truncate themselves, since _hs is dtype '|S8'
         try:
-            self._hs[HD.STRHDRS.index(self.name)] = value.encode('ascii',
-                                                                 'strict')
+            instance._hs[HD.STRHDRS.index(self.name)] = value.encode('ascii',
+                                                                     'strict')
         except AttributeError:
-            self._hs[HD.STRHDRS.index(self.name)] = value
+            instance._hs[HD.STRHDRS.index(self.name)] = value
 
 # strings
 def _strgetter(hdr):
@@ -948,8 +948,7 @@ class SACTrace(object):
     unused23 = intheader('unused23')
     #
     # STRINGS
-    kstnm = property(_strgetter('kstnm'), _strsetter('kstnm'),
-                     doc=HD.DOC['kstnm'])
+    kstnm = stringheader('kstnm')
     kevnm = property(_get_kevnm, _set_kevnm, doc=HD.DOC['kevnm'])
     khole = property(_strgetter('khole'), _strsetter('khole'),
                      doc=HD.DOC['khole'])
