@@ -398,7 +398,7 @@ class sacheader(object):
             pass
         self.name = name
 
-# floats
+
 class floatheader(sacheader):
     def __get__(self, instance, instance_type):
         if instance is None:
@@ -465,7 +465,7 @@ class intheader(sacheader):
             value = HD.INULL
         if value % 1:
             warnings.warn("Non-integers may be truncated. ({}: {})".format(
-                hdr, value))
+                self.name, value))
         instance._hi[HD.INTHDRS.index(self.name)] = value
 
 
@@ -489,7 +489,7 @@ class boolheader(intheader):
                 except SacHeaderError:
                     pass
 
-# enumerated values (stored as ints, represented by strings)
+
 class enumheader(intheader):
     def __get__(self, instance, instance_type):
         value = super(enumheader, self).__get__(instance, instance_type)
@@ -500,7 +500,8 @@ class enumheader(intheader):
             name = HD.ENUM_NAMES[value]
         else:
             msg = """Unrecognized enumerated value {} for header "{}".
-                     See .header for allowed values.""".format(value, hdr)
+                     See .header for allowed values.""".format(value,
+                                                               self.name)
             warnings.warn(msg)
             name = None
         return name
@@ -514,6 +515,20 @@ class enumheader(intheader):
             msg = 'Unrecognized enumerated value "{}" for header "{}"'
             raise ValueError(msg.format(value, self.name))
         super(enumheader, self).__set__(instance, value)
+
+
+def _enumsetter(hdr):
+    def set_enum(self, value):
+        if value is None:
+            value = HD.INULL
+        elif _ut.is_valid_enum_str(hdr, value):
+            value = HD.ENUM_VALS[value]
+        else:
+            msg = 'Unrecognized enumerated value "{}" for header "{}"'
+            raise ValueError(msg.format(value, hdr))
+        self._hi[HD.INTHDRS.index(hdr)] = value
+    return set_enum
+
 
 class stringheader(sacheader):
     def __get__(self, instance, instance_type):
@@ -552,7 +567,7 @@ class stringheader(sacheader):
         except AttributeError:
             instance._hs[HD.STRHDRS.index(self.name)] = value
 
-# strings
+
 def _strgetter(hdr):
     def get_str(self):
         try:
