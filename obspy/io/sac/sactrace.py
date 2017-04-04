@@ -963,37 +963,28 @@ class SACTrace(object):
     #
     # STRINGS
     kstnm = stringheader('kstnm')
-    # kstnm = property(_strgetter('kstnm'), _strsetter('kstnm'),
-    #                  doc=HD.DOC['kstnm'])
     kevnm = property(_get_kevnm, _set_kevnm, doc=HD.DOC['kevnm'])
-    khole = property(_strgetter('khole'), _strsetter('khole'),
-                     doc=HD.DOC['khole'])
-    ko = property(_strgetter('ko'), _strsetter('ko'), doc=HD.DOC['ko'])
-    ka = property(_strgetter('ka'), _strsetter('ka'), doc=HD.DOC['ka'])
-    kt0 = property(_strgetter('kt0'), _strsetter('kt0'), doc=HD.DOC['kt0'])
-    kt1 = property(_strgetter('kt1'), _strsetter('kt1'), doc=HD.DOC['kt1'])
-    kt2 = property(_strgetter('kt2'), _strsetter('kt2'), doc=HD.DOC['kt2'])
-    kt3 = property(_strgetter('kt3'), _strsetter('kt3'), doc=HD.DOC['kt3'])
-    kt4 = property(_strgetter('kt4'), _strsetter('kt4'), doc=HD.DOC['kt4'])
-    kt5 = property(_strgetter('kt5'), _strsetter('kt5'), doc=HD.DOC['kt5'])
-    kt6 = property(_strgetter('kt6'), _strsetter('kt6'), doc=HD.DOC['kt6'])
-    kt7 = property(_strgetter('kt7'), _strsetter('kt7'), doc=HD.DOC['kt7'])
-    kt8 = property(_strgetter('kt8'), _strsetter('kt8'), doc=HD.DOC['kt8'])
-    kt9 = property(_strgetter('kt9'), _strsetter('kt9'), doc=HD.DOC['kt9'])
-    kf = property(_strgetter('kf'), _strsetter('kf'), doc=HD.DOC['kf'])
-    kuser0 = property(_strgetter('kuser0'), _strsetter('kuser0'),
-                      doc=HD.DOC['kuser0'])
-    kuser1 = property(_strgetter('kuser1'), _strsetter('kuser1'),
-                      doc=HD.DOC['kuser1'])
-    kuser2 = property(_strgetter('kuser2'), _strsetter('kuser2'),
-                      doc=HD.DOC['kuser2'])
-    kcmpnm = property(_strgetter('kcmpnm'), _strsetter('kcmpnm'),
-                      doc=HD.DOC['kcmpnm'])
-    knetwk = property(_strgetter('knetwk'), _strsetter('knetwk'),
-                      doc=HD.DOC['knetwk'])
-    kdatrd = property(_strgetter('kdatrd'), _strsetter('kdatrd'))
-    kinst = property(_strgetter('kinst'), _strsetter('kinst'),
-                     doc=HD.DOC['kinst'])
+    khole = stringheader('khole')
+    ko = stringheader('ko')
+    ka = stringheader('ka')
+    kt0 = stringheader('kt0')
+    kt1 = stringheader('kt1')
+    kt2 = stringheader('kt2')
+    kt3 = stringheader('kt3')
+    kt4 = stringheader('kt4')
+    kt5 = stringheader('kt5')
+    kt6 = stringheader('kt6')
+    kt7 = stringheader('kt7')
+    kt8 = stringheader('kt8')
+    kt9 = stringheader('kt9')
+    kf = stringheader('kf')
+    kuser0 = stringheader('kuser0') 
+    kuser1 = stringheader('kuser1') 
+    kuser2 = stringheader('kuser2') 
+    kcmpnm = stringheader('kcmpnm')
+    knetwk = stringheader('knetwk')
+    kdatrd = stringheader('kdatrd')
+    kinst = stringheader('kinst')
 
     @property
     def _header(self):
