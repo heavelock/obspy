@@ -520,14 +520,13 @@ class stringheader(sacheader):
         if instance is None:
             value = self
         else:
+            value = instance._hs[HD.STRHDRS.index(self.name)]
             try:
                 # value is a bytes
-                value = native_str(
-                        instance._hs[HD.STRHDR.index(self.name)].decode()
-                        )
+                value = value.decode()
             except AttributeError:
                 # value is a str
-                value = native_str(instance._hs[HD.STRHDRS.index(self.name)])
+                pass
 
             if value == HD.SNULL:
                 value = None
@@ -949,6 +948,8 @@ class SACTrace(object):
     #
     # STRINGS
     kstnm = stringheader('kstnm')
+    # kstnm = property(_strgetter('kstnm'), _strsetter('kstnm'),
+    #                  doc=HD.DOC['kstnm'])
     kevnm = property(_get_kevnm, _set_kevnm, doc=HD.DOC['kevnm'])
     khole = property(_strgetter('khole'), _strsetter('khole'),
                      doc=HD.DOC['khole'])
