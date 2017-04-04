@@ -568,44 +568,6 @@ class stringheader(sacheader):
             instance._hs[HD.STRHDRS.index(self.name)] = value
 
 
-def _strgetter(hdr):
-    def get_str(self):
-        try:
-            # value is a bytes
-            value = native_str(self._hs[HD.STRHDRS.index(hdr)].decode())
-        except AttributeError:
-            # value is a str
-            value = native_str(self._hs[HD.STRHDRS.index(hdr)])
-
-        if value == HD.SNULL:
-            value = None
-
-        try:
-            value = value.strip()
-        except AttributeError:
-            # it's None.  no .strip method
-            pass
-        return value
-    return get_str
-
-
-def _strsetter(hdr):
-    def set_str(self, value):
-        if value is None:
-            value = HD.SNULL
-        elif len(value) > 8:
-            msg = "Alphanumeric headers longer than 8 characters are "\
-                  "right-truncated."
-            warnings.warn(msg)
-        # they will truncate themselves, since _hs is dtype '|S8'
-        try:
-            self._hs[HD.STRHDRS.index(hdr)] = value.encode('ascii', 'strict')
-        except AttributeError:
-            self._hs[HD.STRHDRS.index(hdr)] = value
-
-    return set_str
-
-
 # Factory for functions of .data (min, max, mean, len)
 def _make_data_func(func, hdr):
     # returns a method that returns the value of func(self.data), or the
