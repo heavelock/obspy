@@ -4,7 +4,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-        workdir: [misc/docker/base_images/ubuntu_18_04_bionic_32bit, misc/docker/base_images/ubuntu_18_04_bionic]
+        matrix:
+            workdir: [misc/docker/base_images/ubuntu_18_04_bionic_32bit, misc/docker/base_images/ubuntu_18_04_bionic]
     steps:
     - uses: actions/checkout@master
     - name: Publish to Registry
