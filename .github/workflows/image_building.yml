@@ -11,7 +11,7 @@ jobs:
             ]
             include: 
               - baseimage: ubuntu_18_04_bionic_32bit
-                workdir: misc/docker/base_images/ubuntu_18_04_bionic_32bit, 
+                workdir: misc/docker/base_images/ubuntu_18_04_bionic_32bit
               - baseimage: ubuntu_18_04_bionic
                 workdir: misc/docker/base_images/ubuntu_18_04_bionic
 
