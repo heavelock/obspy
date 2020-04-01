@@ -5,7 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-            workdir: [misc/docker/base_images/ubuntu_18_04_bionic_32bit, misc/docker/base_images/ubuntu_18_04_bionic]
+            baseimage: [
+              ubuntu_18_04_bionic_32bit,
+              ubuntu_18_04_bionic
+            ]
+            include: 
+              - baseimage: ubuntu_18_04_bionic_32bit
+                workdir: misc/docker/base_images/ubuntu_18_04_bionic_32bit, 
+              - baseimage: ubuntu_18_04_bionic
+                workdir: misc/docker/base_images/ubuntu_18_04_bionic
+
     steps:
     - uses: actions/checkout@master
     - name: Publish to Registry
@@ -15,4 +24,4 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         workdir: ${{ matrix.workdir }}
-        # tag_names: true
+        tags:  ${{ matrix.baseimage }}
