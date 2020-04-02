@@ -9,10 +9,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04, windows-latest, macos-latest]
-    variables:
-        CIBW_BUILD: cp37* cp38*
-        CIBW_SKIP: "*aarch64 *ppc64le *s390x"
-
 
     steps:
     - uses: actions/checkout@v1
@@ -34,6 +30,9 @@ jobs:
     - name: Build wheel
       run: |
         python3 -m cibuildwheel --output-dir wheelhouse
+    env:
+        CIBW_BUILD: cp37* cp38*
+        CIBW_SKIP: "*aarch64 *ppc64le *s390x"
 
     - uses: actions/upload-artifact@v1
       with:
