@@ -2,10 +2,6 @@
 """
 The obspy.signal.trigger test suite.
 """
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
-from future.builtins import *  # NOQA
-
 import gzip
 import os
 import unittest
@@ -17,7 +13,7 @@ import numpy as np
 from obspy import Stream, UTCDateTime, read
 from obspy.signal.trigger import (
     ar_pick, classic_sta_lta, classic_sta_lta_py, coincidence_trigger, pk_baer,
-    recursive_sta_lta, recursive_sta_lta_py, trigger_onset)
+    recursive_sta_lta, recursive_sta_lta_py, trigger_onset, aic)
 from obspy.signal.util import clibsignal
 
 
@@ -94,6 +90,22 @@ class TriggerTestCase(unittest.TestCase):
         self.assertEqual(nptime, 17545)
         self.assertEqual(pfm, 'IPU0')
         self.assertEqual(len(cf), 119999)
+
+    def test_aic(self):
+        """
+        Test AIC function aganist SAC file
+        """
+        filename = os.path.join(self.path, 'CRLZ.HHZ.10.NZ.SAC')
+        aic_cf_compare = np.load(os.path.join(self.path,
+                                              'CRLZ.HHZ.10.NZ.AICcf.npy'))
+        tr = read(filename)[0]
+        tr.filter('lowpass', freq=2, corners=4)
+        tr.trim(tr.stats.starttime + 150)
+        tr.decimate(10, no_filter=True)
+        idx, aic_cf = aic(tr.data)
+        self.assertEqual(idx, 836)
+        self.assertEqual(len(aic_cf), tr.data.size - 1)
+        np.testing.assert_allclose(aic_cf, aic_cf_compare)
 
     def test_ar_pick(self):
         """

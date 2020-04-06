@@ -25,10 +25,6 @@ characteristic functions and a coincidence triggering routine.
     GNU Lesser General Public License, Version 3
     (https://www.gnu.org/copyleft/lesser.html)
 """
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
-from future.builtins import *  # NOQA
-
 from collections import deque
 import ctypes as C  # NOQA
 import warnings
@@ -426,6 +422,49 @@ def pk_baer(reltrc, samp_int, tdownmax, tupevent, thr1, thr2, preset_len,
         return pptime.value + 1, pfm.value.decode('utf-8'), cf_arr
     else:
         return pptime.value + 1, pfm.value.decode('utf-8')
+
+
+def aic(td):
+    """
+    Differently from AR-AIC picker, this function calculates AIC function
+    directly from the data, without using the AR coefficients (Maeda, 1985)
+
+    Computes P-phase arrival time digital single-component acceleration
+    or broadband velocity record without requiring threshold settings using
+    AKAIKE INFORMATION CRITERION.
+    Returns P-phase arrival time index and the characteristic function.
+    The returned index correspond to the characteristic function's minima.
+
+    :type td: :class:`numpy.ndarray`
+    :param td: time series values.
+    :return: (idx, aic_cf) idx sample number of parrival; aic_cf numpy.ndarray
+        containing the values of the characteristic function.
+
+    .. seealso:: [Maeda1985]_
+    """
+    # --------------------  Initial checks
+    if not isinstance(td, np.ndarray):
+        raise ValueError("Input time series must be a numpy.ndarray instance!")
+    aic_cf = np.zeros(td.size - 1)
+    # --------------------  CF calculation
+    with np.errstate(divide='raise'):
+        for ii in range(1, td.size):
+            try:
+                var1 = np.log(np.var(td[0:ii]))
+            except FloatingPointError:  # if var==0 --> log is -inf
+                var1 = 0.00
+            #
+            try:
+                var2 = np.log(np.var(td[ii:]))
+            except FloatingPointError:  # if var==0 --> log is -inf
+                var2 = 0.00
+            #
+            val1 = ii * var1
+            val2 = (td.size - ii - 1) * var2
+            aic_cf[ii - 1] = (val1 + val2)
+    # --------------------  Index search
+    idx = np.argmin(aic_cf)
+    return idx, aic_cf
 
 
 def ar_pick(a, b, c, samp_rate, f1, f2, lta_p, sta_p, lta_s, sta_s, m_p, m_s,
