@@ -1,5 +1,14 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
-    hooks:
-    - id: flake8
+    -   repo: https://github.com/pre-commit/pre-commit-hooks.git
+        rev: v3.4.0
+        hooks:
+            - id: end-of-file-fixer
+            - id: trailing-whitespace
+    -   repo: https://gitlab.com/pycqa/flake8
+        rev: 3.8.4
+        hooks:
+            - id: flake8
+    -   repo: https://github.com/PyCQA/doc8.git
+        rev: master
+        hooks:
+            - id: doc8
