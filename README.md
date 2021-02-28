@@ -53,7 +53,7 @@ st.plot()
 
 ### Documentation and Changelog
 
-The **detailed changelog** is available [here](CHANGELOG.txt), our docs can be found at [docs.obspy.org](http://docs.obspy.org/).
+The **detailed changelog** is available [here](CHANGELOG.md), our docs can be found at [docs.obspy.org](http://docs.obspy.org/).
 
 ### Contributing
 
