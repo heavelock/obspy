@@ -1,6 +1,7 @@
 name: Build wheels & release them
 
 on:
+  pull_request:
   push:
     branches:
       - master
@@ -18,7 +19,7 @@ jobs:
     env:
         CIBW_BUILD: cp37* cp38*
         CIBW_SKIP: "*aarch64 *ppc64le *s390x"
-        CIBW_TEST_COMMAND: obspy-runtests -r -d
+#        CIBW_TEST_COMMAND: obspy-runtests -r -d
 
     steps:
       - uses: actions/checkout@v2
