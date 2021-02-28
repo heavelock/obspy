@@ -17,8 +17,9 @@ jobs:
       matrix:
         os: [ubuntu-20.04, windows-2019, macOS-10.15]
     env:
-        CIBW_BUILD: cp37* cp38*
+        CIBW_BUILD: cp37* cp38* cp39*
         CIBW_SKIP: "*aarch64 *ppc64le *s390x"
+        CIBW_ARCHS_MACOS: x86_64 arm64
 #        CIBW_TEST_COMMAND: obspy-runtests -r -d
 
     steps:
