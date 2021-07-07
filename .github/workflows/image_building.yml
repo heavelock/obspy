@@ -1,0 +1,45 @@
+name: Publish Docker
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            baseimage: [
+              ubuntu_18_04_bionic_32bit,
+              ubuntu_18_04_bionic
+            ]
+            include: 
+              - baseimage: ubuntu_18_04_bionic_32bit
+                workdir: misc/docker/base_images/ubuntu_18_04_bionic_32bit
+              - baseimage: ubuntu_18_04_bionic
+                workdir: misc/docker/base_images/ubuntu_18_04_bionic
+
+
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context:  ${{ matrix.workdir }}
+          file: ./Dockerfile
+#          platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
+          push: true
+          tags: |
+            heavelock/obspy_${{matrix.baseimage}}:latest
+#            user/app:1.0.0
